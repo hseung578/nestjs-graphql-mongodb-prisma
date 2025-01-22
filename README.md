@@ -26,7 +26,7 @@
 
 Nestjs + Graphql + MongoDB + Prisma
 
-MongoDB example data
+MongoDB Altas sample data
 
 ## Installation
 
