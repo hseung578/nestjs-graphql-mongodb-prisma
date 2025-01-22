@@ -1,0 +1,145 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type User {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  email: String!
+  name: String!
+  password: String!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type LoginOutput {
+  token: String!
+}
+
+type PageInfo {
+  endCursor: String
+  hasNextPage: Boolean!
+}
+
+type Awards {
+  wins: Int!
+  nominations: Int!
+  text: String!
+}
+
+type Viewer {
+  rating: Float
+  numReviews: Int
+  meter: Int
+}
+
+type Critic {
+  rating: Float
+  numReviews: Int
+  meter: Int
+}
+
+type Tomatoes {
+  viewer: Viewer
+  boxOffice: String
+  dvd: DateTime
+  website: String
+  critic: Critic
+  lastUpdated: DateTime!
+  consensus: String
+  rotten: Int
+  production: String
+  fresh: Int
+}
+
+type Movie {
+  id: ID!
+  plot: String
+  genres: [String!]!
+  runtime: Int
+  rated: String
+  cast: [String!]!
+  poster: String
+  title: String!
+  fullplot: String
+  countries: [String!]!
+  directors: [String!]!
+  languages: [String!]!
+  witers: [String!]!
+  type: String!
+  metacritic: Int
+  numMflixComments: Int
+  awards: Awards!
+  tomatoes: Tomatoes
+  released: DateTime
+  lastupdated: String!
+  comments: [Comment!]
+}
+
+type Comment {
+  id: ID!
+  name: String!
+  email: String!
+  text: String!
+  date: DateTime!
+  movie: Movie
+  movieId: ID
+}
+
+type CommentsOutput {
+  totalCount: Int!
+  edges: [CommentEdge!]
+  pageInfo: PageInfo
+}
+
+type CommentEdge {
+  cursor: String!
+  node: Comment!
+}
+
+type MoviesOutput {
+  totalCount: Int!
+  edges: [MovieEdge!]
+  pageInfo: PageInfo
+}
+
+type MovieEdge {
+  cursor: String!
+  node: Movie!
+}
+
+type Query {
+  user(input: UserInput!): User!
+  commentsConnection(input: PaginationInput!): CommentsOutput!
+  moviesConnection(input: PaginationInput!): MoviesOutput!
+}
+
+input UserInput {
+  userId: String!
+}
+
+input PaginationInput {
+  after: String
+  first: Int!
+}
+
+type Mutation {
+  signup(input: SignUpInput!): User!
+  login(input: LoginInput!): LoginOutput!
+  refresh: LoginOutput!
+}
+
+input SignUpInput {
+  email: String!
+  name: String!
+  password: String!
+}
+
+input LoginInput {
+  email: String!
+  password: String!
+}

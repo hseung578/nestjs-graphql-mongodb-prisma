@@ -1,0 +1,131 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+// model User {
+//   id          String    @id @default(auto()) @map("_id") @db.ObjectId
+//   email       String    @unique
+//   name        String
+//   password    String
+//   createdAt   DateTime  @default(now())
+//   updatedAt   DateTime  @updatedAt
+// }
+
+model Comment {
+  id                String    @id @default(auto()) @map("_id") @db.ObjectId
+  name              String
+  email             String    @unique
+  text              String
+  date              DateTime
+  movie             Movie?    @relation(fields: [movieId], references: [id])
+  movieId           String?   @map("movie_id") @db.ObjectId
+
+  @@map("comments")
+}
+
+model Movie {
+  id                String    @id @default(auto()) @map("_id") @db.ObjectId
+  plot              String?
+  genres            String[]
+  runtime           Int?
+  rated             String?
+  cast              String[]
+  poster            String?
+  title             String
+  fullplot          String?
+  countries         String[]
+  directors         String[]
+  languages         String[]
+  witers            String[]
+  // year              Int | String
+  type              String
+  metacritic        Int?
+  numMflixComments  Int?        @map("num_mflix_comments")
+  awards            Awards
+  // imdb Imdb
+  tomatoes          Tomatoes?
+  released          DateTime?
+  lastupdated       String
+  comments          Comment[]
+
+  @@map("movies")
+}
+
+model Theater {
+  id                String      @id @default(auto()) @map("_id") @db.ObjectId
+  theaterId         Int
+  location          Location
+
+  @@map("theaters")
+}
+
+model User {
+  id                String      @id @default(auto()) @map("_id") @db.ObjectId
+  name              String
+  email             String      @unique
+  password          String
+
+  @@map("users")
+}
+
+type Awards {
+  wins              Int
+  nominations       Int
+  text              String
+}
+
+type Imdb {
+  rating            Float
+  votes             Int
+  id                Int
+}
+
+type Tomatoes {
+  viewer            Viewer?
+  boxOffice         String?
+  dvd               DateTime?
+  website           String?
+  critic            Critic?
+  lastUpdated       DateTime
+  consensus         String?
+  rotten            Int?
+  production        String?
+  fresh             Int?
+}
+
+type Viewer {
+  rating            Float?
+  numReviews        Int?
+  meter             Int?
+}
+
+type Critic {
+  rating            Float?
+  numReviews        Int?
+  meter             Int?
+}
+
+type Location {
+  address           Address
+  geo               Geo
+}
+
+type Address {
+  street1           String
+  city              String
+  state             String
+  zipcode           String
+}
+
+type Geo {
+  type              String
+  coordinates       Float[]
+}
